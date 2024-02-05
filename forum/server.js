@@ -57,3 +57,25 @@ app.post('/add', async (request, response) => {
     }
     
 })
+
+app.get('/write2', (request, response) => {
+    response.render('write2.ejs')
+})
+app.post('/add2', async (request, response) => {
+    try{
+        if(request.body.name === ''){
+            response.send('이름을 입력해주세요')
+        }else if(request.body.number === ''){
+            response.send('번호를 입력해주세요')
+        }else if(request.body.name === '' && request.body.number === ''){
+            response.send('내용을 입력해주세요')
+        }else{
+            await db.collection('post2').insertOne({name: request.body.name, number: request.body.number})
+            console.log('db 입력 성공')
+        }
+        
+    }catch(e){
+        console.log(e)
+    }
+    response.redirect('/list')
+})
