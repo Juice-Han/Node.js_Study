@@ -6,7 +6,7 @@ app.set('view engine', 'ejs')
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-const { MongoClient } = require('mongodb')
+const { MongoClient, ObjectId } = require('mongodb')
 
 let db
 const url = 'mongodb+srv://admin:admin1234@cluster0.uyhgcoc.mongodb.net/?retryWrites=true&w=majority'
@@ -44,38 +44,57 @@ app.get('/write', (request, response) => {
 })
 
 app.post('/add', async (request, response) => {
-    try{
+    try {
         if (request.body.title === '') {
             response.send('제목을 입력해주세요')
         } else {
             await db.collection('post').insertOne({ title: request.body.title, content: request.body.content })
             response.redirect('/list')
         }
-    }catch(e){
+    } catch (e) {
         console.log(e)
         response.status(500).send('서버에러')
     }
-    
+
 })
 
 app.get('/write2', (request, response) => {
     response.render('write2.ejs')
 })
+
 app.post('/add2', async (request, response) => {
-    try{
-        if(request.body.name === ''){
+    try {
+        if (request.body.name === '') {
             response.send('이름을 입력해주세요')
-        }else if(request.body.number === ''){
+        } else if (request.body.number === '') {
             response.send('번호를 입력해주세요')
-        }else if(request.body.name === '' && request.body.number === ''){
+        } else if (request.body.name === '' && request.body.number === '') {
             response.send('내용을 입력해주세요')
-        }else{
-            await db.collection('post2').insertOne({name: request.body.name, number: request.body.number})
+        } else {
+            await db.collection('post2').insertOne({ name: request.body.name, number: request.body.number })
             console.log('db 입력 성공')
         }
-        
-    }catch(e){
+
+    } catch (e) {
         console.log(e)
     }
     response.redirect('/list')
+})
+
+app.get('/detail/:id', async (request, response) => {
+    let id = request.params
+    try {
+        let result = await db.collection('post').findOne({ _id: new ObjectId(id) })
+        if(result == null){
+            response.status(404).send('데이터가 존재하지 않습니다.')    
+        }
+        response.render('detail.ejs', { data: result })
+    } catch (e) {
+        response.status(404).send('데이터가 존재하지 않습니다.')
+    }
+
+})
+
+app.get('*',(request, response) => {
+    response.status(404).send('페이지가 존재하지 않습니다.')
 })
