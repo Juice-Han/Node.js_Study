@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
+const methodOverride = require('method-override')
 
+app.use(methodOverride('_method'))
 app.use(express.static(__dirname + '/public'));
 app.set('view engine', 'ejs')
 app.use(express.json())
@@ -93,6 +95,44 @@ app.get('/detail/:id', async (request, response) => {
         response.status(404).send('데이터가 존재하지 않습니다.')
     }
 
+})
+app.get('/rewrite/:id', async (request, response) => {
+    let id = request.params
+    try{
+        let data = await db.collection('post').findOne({_id: new ObjectId(id)})
+        response.render('rewrite.ejs', {data: data})
+    }catch(e){
+        response.status(500).send('오류가 발생했습니다.')
+    }
+    
+})
+app.put('/rewrite/:id', async (request, response) => {
+    let id = request.params
+    try{
+        if(request.body.title === '' || request.body.content === ''){
+            response.send('데이터를 모두 입력해주세요')
+        }
+        let result = await db.collection('post').updateOne({_id : new ObjectId(id)},{$set: {title: request.body.title, content: request.body.content}})
+        console.log(result)
+        response.redirect('/list')
+    }catch(e){
+        response.status(500).send('오류가 발생했습니다.')
+    }
+})
+
+app.get('/increase', async (request, response) => {
+    await db.collection('post').updateMany({_id: {$lt : 2}}, {$inc : {like : 2}})
+    console.log('2 상승')
+})
+
+app.delete('/post', async (request, response) => {
+    try{
+        let result = await db.collection('post').deleteOne({_id: new ObjectId(request.query.id)})
+        response.send('삭제완료')
+        console.log(result)
+    }catch(e){
+        response.send('오류가 발생했습니다.')
+    }
 })
 
 app.get('*',(request, response) => {
