@@ -32,7 +32,7 @@ app.get('/users', (request, response) => {
 })
 
 app.get('/list', async (request, response) => {
-    let result = await db.collection('post').find().toArray()
+    let result = await db.collection('post').find().limit(5).toArray()
     response.render('list.ejs', { posts: result })
 })
 
@@ -134,6 +134,14 @@ app.delete('/post', async (request, response) => {
         response.send('오류가 발생했습니다.')
     }
 })
+
+
+app.get('/list/next/:id', async (req, res) => {
+    // let start = (parseInt(req.params.number)  - 1)* 5
+    let result = await db.collection('post').find({_id : { $gt : new ObjectId(req.params.id)}}).limit(5).toArray()
+    res.render('list.ejs', { posts: result })
+})
+
 
 app.get('*',(request, response) => {
     response.status(404).send('페이지가 존재하지 않습니다.')
