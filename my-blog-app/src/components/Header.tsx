@@ -17,12 +17,11 @@ const LogoTitle = styled.div`
   font-weight: 600;
   color: white;
   text-align: center;
-  line-height: 1.1;
 `
 
 const NavItem = styled.div`
   width: 60px;
-  height: 25px;
+  height: 20px;
   font-size: 16px;
   color: white;
   margin-left: 10px;

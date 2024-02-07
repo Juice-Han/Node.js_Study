@@ -1,9 +1,9 @@
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
-import MainPage from "./components/MainPage";
-import Write from "./components/Write";
-import Posts from "./components/Posts";
+import MainPage from "./pages/MainPage";
+import Write from "./pages/Write";
+import Posts from "./pages/Posts";
 
 function App() {
   return (

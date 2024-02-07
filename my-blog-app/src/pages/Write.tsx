@@ -1,9 +1,11 @@
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Write() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const navigate = useNavigate();
 
   const savePost = async () => {
     try {
@@ -11,17 +13,19 @@ export default function Write() {
         title: title,
         content: content,
       }
-      console.log(data);
-      const response = await axios.post(
+      await axios.post(
         "http://localhost:8080/post",
         data,
         {
           headers: {'Content-Type' : 'application/json'}
         },
       );
+      navigate('/posts');
     } catch (e: any) {
       console.log(e);
+      navigate('/');
     }
+    
   };
 
   return (
