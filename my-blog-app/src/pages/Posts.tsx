@@ -50,12 +50,10 @@ export default function Posts() {
       <PostContainer>
         {posts.map((element, idx) => {
           return (
-            <>
               <Post key={idx}>
                 <h2>{element.title}</h2>
                 <p>{element.content}</p>
               </Post>
-            </>
           );
         })}
       </PostContainer>
