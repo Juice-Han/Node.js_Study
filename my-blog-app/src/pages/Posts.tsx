@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -22,20 +23,34 @@ const Post = styled.div`
   width: 100%;
   height: 150px;
   box-sizing: border-box;
-  border: 1px solid gray;
   border-radius: 30px;
+  box-shadow: 2px 2px 2px gray;
   padding: 20px;
-  background-color: ivory;
+  background-color: lightgoldenrodyellow;
   margin-bottom: 20px;
+
+  & > button {
+    width: 40px;
+    height: 20px;
+    border: none;
+    background-color: black;
+    color: white;
+  }
 `;
 
 type PostType = {
+  _id: string;
   title: string;
   content: string;
 };
 
 export default function Posts() {
   const [posts, setPosts] = useState<PostType[]>([]);
+  const navigate = useNavigate();
+
+  const goToRewrite = (id : string) => {
+    navigate(`/rewrite/${id}`)
+  }
 
   useEffect(() => {
     const getPosts = async () => {
@@ -53,6 +68,7 @@ export default function Posts() {
               <Post key={idx}>
                 <h2>{element.title}</h2>
                 <p>{element.content}</p>
+                <button onClick={()=>{goToRewrite(element._id)}}>수정</button>
               </Post>
           );
         })}

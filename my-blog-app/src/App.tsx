@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import MainPage from "./pages/MainPage";
 import Write from "./pages/Write";
 import Posts from "./pages/Posts";
+import Rewrite from "./pages/Rewrite";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/" element={<MainPage />} />
         <Route path="/write" element={<Write />} />
         <Route path="/posts" element={<Posts />} />
+        <Route path="/rewrite/:id" element={<Rewrite />} />
       </Routes>
     </>
   );
