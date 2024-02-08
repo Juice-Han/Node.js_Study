@@ -23,18 +23,16 @@ const Post = styled.div`
   width: 100%;
   height: 150px;
   box-sizing: border-box;
-  border-radius: 30px;
-  box-shadow: 2px 2px 2px gray;
   padding: 20px;
-  background-color: lightgoldenrodyellow;
   margin-bottom: 20px;
-
+  border-bottom: 1px solid gray;
   & > button {
     width: 40px;
     height: 20px;
     border: none;
     background-color: black;
     color: white;
+    margin-right: 10px;
   }
 `;
 
@@ -48,8 +46,21 @@ export default function Posts() {
   const [posts, setPosts] = useState<PostType[]>([]);
   const navigate = useNavigate();
 
-  const goToRewrite = (id : string) => {
+  const rewritePost = (id : string) => {
     navigate(`/posts/rewrite/${id}`)
+  }
+
+  const deletePost = async (id: string, idx: number) => {
+    try{
+      const response = await axios.delete(`http://localhost:8080/post/${id}`)
+      if(response.status === 200){
+        let tmpPosts = [...posts];
+        tmpPosts.splice(idx,1);
+        setPosts(tmpPosts);
+      }
+    }catch(e){
+      console.log(e)
+    }
   }
 
   useEffect(() => {
@@ -68,7 +79,8 @@ export default function Posts() {
               <Post key={idx}>
                 <h2>{element.title}</h2>
                 <p>{element.content}</p>
-                <button onClick={()=>{goToRewrite(element._id)}}>수정</button>
+                <button onClick={()=>{rewritePost(element._id)}}>수정</button>
+                <button onClick={()=>{deletePost(element._id, idx)}}>삭제</button>
               </Post>
           );
         })}

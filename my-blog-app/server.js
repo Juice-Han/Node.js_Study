@@ -86,6 +86,17 @@ app.patch('/post/:id', async (req, res) => {
     }
 })
 
+app.delete('/post/:id', async(req,res)=> {
+    let id = req.params.id
+    try{
+        await db.collection('posts').deleteOne({_id : new ObjectId(id)})
+        res.status(200).send('삭제 완료')
+    }catch(e){
+        console.log(e)
+        res.status(404).send('값을 찾을 수 없습니다.')
+    }
+})
+
 //리액트에게 라우팅 전권을 부여
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '/dist/index.html'))
