@@ -12,9 +12,9 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<MainPage />} />
-        <Route path="/write" element={<Write />} />
         <Route path="/posts" element={<Posts />} />
-        <Route path="/rewrite/:id" element={<Rewrite />} />
+        <Route path="/posts/write" element={<Write />} />
+        <Route path="/posts/rewrite/:id" element={<Rewrite />} />
       </Routes>
     </>
   );

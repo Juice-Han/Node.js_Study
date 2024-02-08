@@ -32,7 +32,7 @@ function Header() {
   return (
     <Container>
       <LogoTitle onClick={()=>{navigate('/')}}>JuiceHan Blog</LogoTitle>
-      <NavItem onClick={()=>{navigate('/write')}}>글 쓰기</NavItem>
+      <NavItem onClick={()=>{navigate('/posts/write')}}>글 쓰기</NavItem>
       <NavItem onClick={()=>{navigate('/posts')}}>글 목록</NavItem>
     </Container>
   );

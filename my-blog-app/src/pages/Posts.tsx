@@ -49,7 +49,7 @@ export default function Posts() {
   const navigate = useNavigate();
 
   const goToRewrite = (id : string) => {
-    navigate(`/rewrite/${id}`)
+    navigate(`/posts/rewrite/${id}`)
   }
 
   useEffect(() => {
