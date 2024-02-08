@@ -21,11 +21,12 @@ const PostContainer = styled.div`
 
 const Post = styled.div`
   width: 100%;
-  height: 150px;
+  height: auto;
   box-sizing: border-box;
   padding: 20px;
   margin-bottom: 20px;
   border-bottom: 1px solid gray;
+  white-space: pre-line;
   & > button {
     width: 40px;
     height: 20px;
