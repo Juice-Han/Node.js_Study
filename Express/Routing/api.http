@@ -1,0 +1,13 @@
+@baseUrl = http://localhost:8080/
+
+GET {{baseUrl}}order/
+
+###
+
+POST {{baseUrl}}order/
+Content-Type: application/json; charset=UTF-8
+
+{
+    "id": 1,
+    "menu": "latte"
+}

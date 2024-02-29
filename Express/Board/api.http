@@ -1,0 +1,32 @@
+@baseURL = http://localhost:8080/
+
+# @name getData
+GET {{baseURL}}board/posts
+
+###
+
+POST {{baseURL}}board/posts
+Content-Type: application/json; charset=UTF-8
+
+{
+    "title": "test1",
+    "content": "test content1"
+}
+
+###
+
+PATCH {{baseURL}}board/posts/{{getData.response.body.posts[0]._id}}
+Content-Type: application/json; charset=UTF-8
+
+{
+    "title": "test",
+    "content": "patch test"
+}
+
+###
+
+GET {{baseURL}}board/posts/{{getData.response.body.posts[0]._id}}
+
+###
+
+DELETE  {{baseURL}}board/posts/{{getData.response.body.posts[0]._id}}
