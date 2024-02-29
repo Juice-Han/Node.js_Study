@@ -1,6 +1,7 @@
 const { MongoClient} = require('mongodb');
+require('dotenv').config();
 
-const client = new MongoClient('mongodb+srv://admin:admin1234@cluster0.uyhgcoc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
+const client = new MongoClient(`mongodb+srv://${process.env.MONGODB_LOGIN}@cluster0.uyhgcoc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`);
 
 async function connectDB(listen){
     try{
