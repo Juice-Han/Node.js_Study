@@ -42,7 +42,8 @@ router.patch('/posts/:id', async (req, res) => {
     }
     const updateDoc = { $set: { title: req.body.title, content: req.body.content } };
     const result = await db.collection('posts').updateOne(query, updateDoc);
-    if (result.modifiedCount !== 0) {
+    if (result.modifiedCount !== 1) {
+        console.log(result)
         res.status(500).json({ message: '데이터베이스에 변경사항이 저장되지 않았습니다.' });
         return;
     }

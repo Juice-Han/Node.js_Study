@@ -9,8 +9,8 @@ POST {{baseURL}}board/posts
 Content-Type: application/json; charset=UTF-8
 
 {
-    "title": "test1",
-    "content": "test content1"
+    "title": "test2",
+    "content": "test content2"
 }
 
 ###
