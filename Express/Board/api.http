@@ -1,5 +1,7 @@
 @baseURL = http://localhost:8080/
 
+# posts 관련 API
+
 # @name getData
 GET {{baseURL}}board/posts
 
@@ -30,3 +32,25 @@ GET {{baseURL}}board/posts/{{getData.response.body.posts[0]._id}}
 ###
 
 DELETE  {{baseURL}}board/posts/{{getData.response.body.posts[0]._id}}
+
+###
+
+# users 관련 API
+
+POST {{baseURL}}user/register
+Content-Type: application/json; charset=UTF-8
+
+{
+    "id": "test1",
+    "password": "test1"
+}
+
+###
+
+POST {{baseURL}}user/login
+Content-Type: application/json; charset=UTF-8
+
+{
+    "id": "test0",
+    "password": "test1"
+}

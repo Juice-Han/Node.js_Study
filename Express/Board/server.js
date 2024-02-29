@@ -1,5 +1,6 @@
 const express = require('express');
 const boardRouter = require('./router/board.js');
+const userRouter = require('./router/user.js');
 const { connectDB } = require('./config/mongodb.js');
 
 const app = express();
@@ -10,3 +11,4 @@ connectDB(()=>{app.listen(8080, ()=>{
 })})
 
 app.use('/board', boardRouter);
+app.use('/user', userRouter);
