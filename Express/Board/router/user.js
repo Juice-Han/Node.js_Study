@@ -14,7 +14,7 @@ router.post('/register', async (req, res) => {
        return;
     }
     const result = await collection.insertOne(req.body);
-    if(result){
+    if(!result){
         res.status(500).json({message: '계정을 등록하지 못했습니다.'});
         return;
     }
@@ -35,6 +35,7 @@ router.post('/login', async (req, res) => {
         res.status(400).json({message: '비밀번호를 다시 입력해주세요.'});
         return;
     }
+    req.session.is_login = true;
     res.status(200).json({message: '로그인 성공'});
 })
 

@@ -11,6 +11,10 @@ router.get('/posts', async (req, res) => {
 })
 
 router.post('/posts', async (req, res) => {
+    if(!req.session.is_login){
+        res.status(401).send({message: '로그인을 한 후 이용해주세요.'});
+        return;
+    }
     const post = req.body;
     if (!post.title || !post.content) {
         res.status(400).json({ message: "필수 입력 사항을 입력하세요." });
@@ -43,7 +47,6 @@ router.patch('/posts/:id', async (req, res) => {
     const updateDoc = { $set: { title: req.body.title, content: req.body.content } };
     const result = await db.collection('posts').updateOne(query, updateDoc);
     if (result.modifiedCount !== 1) {
-        console.log(result)
         res.status(500).json({ message: '데이터베이스에 변경사항이 저장되지 않았습니다.' });
         return;
     }
