@@ -40,11 +40,11 @@ router.post('/login', async (req, res) => {
 })
 
 router.post('/logout', async (req, res) => {
-    if (!req.session) {
-        res.json({ message: '올바른 접근 방식이 아닙니다.' });
+    if(!req.session.is_login){
+        return res.json({ message: '올바른 접근 방식이 아닙니다.' });
     }
     req.session.destroy();
-    res.json({ message: '로그아웃 되었습니다.' });
+    return res.json({ message: '로그아웃 되었습니다.' });
 })
 
 module.exports = router;
