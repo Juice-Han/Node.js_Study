@@ -51,6 +51,10 @@ POST {{baseURL}}user/login
 Content-Type: application/json; charset=UTF-8
 
 {
-    "id": "test1",
-    "password": "test1"
+    "id": "test2",
+    "password": "test2"
 }
+
+###
+
+POST {{baseURL}}user/logout
