@@ -5,7 +5,7 @@ const collection = client.db('board').collection('users')
 
 router.post('/register', async (req, res) => {
     if (!req.body.id || !req.body.password) {
-        return res.json({ message: '필수 입력사항을 입력해주세요.' });
+        return res.status(400).json({ message: '필수 입력사항을 입력해주세요.' });
     }
     const user = await collection.findOne({ id: req.body.id });
     if (user) {
@@ -19,8 +19,11 @@ router.post('/register', async (req, res) => {
 })
 
 router.post('/login', async (req, res) => {
+    if(req.session.is_login){
+        return res.status(400).json({message: '정상적인 접근이 아닙니다.'})
+    }
     if (!req.body.id || !req.body.password) {
-        return res.json({ message: '필수 입력사항을 입력해주세요.' });
+        return res.status(400).json({ message: '필수 입력사항을 입력해주세요.' });
     }
     const user = await collection.findOne({ id: req.body.id });
     if (!user) {
@@ -35,10 +38,10 @@ router.post('/login', async (req, res) => {
 
 router.post('/logout', async (req, res) => {
     if (!req.session.is_login) {
-        return res.json({ message: '올바른 접근 방식이 아닙니다.' });
+        return res.status(401).json({ message: '정상적인 접근이 아닙니다.' });
     }
     req.session.destroy();
-    return res.json({ message: '로그아웃 되었습니다.' });
+    return res.status(200).json({ message: '로그아웃 되었습니다.' });
 })
 
 module.exports = router;
