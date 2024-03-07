@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 require('dotenv').config();
 const boardRouter = require('./router/board.js');
 const userRouter = require('./router/user.js');
+const imgRouter = require('./router/img.js');
 const { connectDB, client } = require('./config/mongodb.js');
 
 const app = express();
@@ -35,3 +36,4 @@ connectDB(() => {
 
 app.use('/board', boardRouter);
 app.use('/user', userRouter);
+app.use('/img', imgRouter);
