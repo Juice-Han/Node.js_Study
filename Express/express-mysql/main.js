@@ -130,7 +130,7 @@ var app = http.createServer(function (request, response) {
         if (error) {
           throw error;
         }
-        response.writeHead(302, { Location: `/?id=${queryData.id}` });
+        response.writeHead(302, { Location: `/?id=${post.id}` });
         response.end();
       })
     });
