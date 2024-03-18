@@ -128,7 +128,6 @@ var app = http.createServer(function (request, response) {
           throw error2;
         }
         var list = template.list(topics);
-        console.log(topic)
         var html = template.HTML(topic[0].title, list,
           `
             <form action="/update_process" method="post">
