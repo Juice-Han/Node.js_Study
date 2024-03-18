@@ -1,5 +1,5 @@
 module.exports = {
-  HTML:function(title, list, body, control){
+  HTML: function (title, list, body, control) {
     return `
     <!doctype html>
     <html>
@@ -15,14 +15,26 @@ module.exports = {
     </body>
     </html>
     `;
-  },list:function(filelist){
+  }, list: function (filelist) {
     var list = '<ul>';
     var i = 0;
-    while(i < filelist.length){
+    while (i < filelist.length) {
       list = list + `<li><a href="/?id=${filelist[i].id}">${filelist[i].description}</a></li>`;
       i = i + 1;
     }
-    list = list+'</ul>';
+    list = list + '</ul>';
     return list;
+  }, authorSelect: function (authors) {
+    var tag = '';
+    var i = 0;
+    while (i < authors.length) {
+      tag = tag + `<option value="${authors[i].id}">${authors[i].name}</option>`
+      i++;
+    }
+    return `
+    <select name="author">
+      ${tag}
+    </select>
+    `
   }
 }
