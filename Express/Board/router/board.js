@@ -5,6 +5,42 @@ const router = express.Router();
 
 const db = client.db('board');
 
+/**
+ * @swagger
+ * tags:
+ *   name: Board
+ *   description: 게시글 작성 api
+ */
+/**
+ * @swagger
+ * paths:
+ *  /board/posts:
+ *    get:
+ *      summary: "게시글 전체 목록 조회"
+ *      description: "게시글 목록을 가져온다."
+ *      tags: [Board]
+ *      responses:
+ *        "200":
+ *          description: 전체 게시글 목록
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                    posts:
+ *                      type: object
+ *                      example: 
+ *                          [
+ *                            { "_id": "1234567", "title": "test1", "content": "test1" },
+ *                            { "_id": "2345678", "title": "test2", "content": "test2" },
+ *                            { "_id": "3456789", "title": "test3", "content": "test3" },
+ *                          ]
+ *                    message:
+ *                      type: string
+ *                      example:
+ *                          "정상적으로 데이터를 불러왔습니다."
+ *                          
+ */
 router.get('/posts', async (req, res) => {
     const posts = await db.collection('posts').find().toArray();
     return res.status(200).json({ posts: posts, message: '정상적으로 데이터를 불러왔습니다.' });

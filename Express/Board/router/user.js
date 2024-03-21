@@ -4,6 +4,12 @@ const { client } = require('../config/mongodb.js');
 
 const collection = client.db('board').collection('users')
 
+/**
+ * @swagger
+ * tags:
+ *   name: User
+ *   description: 회원 관련 기능 api
+ */
 router.post('/register', async (req, res) => {
     if (!req.body.id || !req.body.password) {
         return res.status(400).json({ message: '필수 입력사항을 입력해주세요.' });

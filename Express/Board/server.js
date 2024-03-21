@@ -28,11 +28,14 @@ app.use(session({
 }))
 app.use(cookieParser());
 
+const { swaggerUi, specs } = require("./swagger/swagger")
+
 connectDB(() => {
     app.listen(8080, () => {
         console.log('8080 포트에서 서버 실행중');
     })
 })
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs))
 
 app.use('/board', boardRouter);
 app.use('/user', userRouter);

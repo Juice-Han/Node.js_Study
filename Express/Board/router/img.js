@@ -3,7 +3,12 @@ const express = require('express');
 const fs = require('fs');
 var router = express.Router();
 
-// 이미지 업로드
+/**
+ * @swagger
+ * tags:
+ *   name: Img
+ *   description: 이미지 업로드 관련 api
+ */
 router.post("/upload", upload.single("img"), async (req, res) => {
 
     const imgfile = req.file;
