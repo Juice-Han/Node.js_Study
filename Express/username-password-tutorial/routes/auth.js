@@ -21,6 +21,18 @@ passport.use(new LocalStrategy(function verify(username, password, cb) {
     });
 }));
 
+passport.serializeUser(function (user, cb) {
+    process.nextTick(function () {
+        cb(null, { id: user.id, username: user.username });
+    });
+});
+
+passport.deserializeUser(function (user, cb) {
+    process.nextTick(function () {
+        return cb(null, user);
+    });
+});
+
 router.get('/login', function (req, res, next) {
     res.render('login');
 });
@@ -30,4 +42,10 @@ router.post('/login/password', passport.authenticate('local', {
     failureRedirect: '/login'
 }));
 
+router.post('/logout', function (req, res, next) {
+    req.logout(function (err) {
+        if (err) { return next(err); }
+        res.redirect('/');
+    });
+});
 module.exports = router;
