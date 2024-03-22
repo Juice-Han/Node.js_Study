@@ -1,0 +1,20 @@
+components:
+  schemas:
+    Board:
+      type: object
+      properties:
+        posts:
+          type: object
+          properties:
+              _id:
+                type: string
+                description: 게시글 db 아이디
+              title:
+                type: string
+                description: 게시글 제목
+              content:
+                type: string
+                description: 게시글 내용
+        message:
+          type: string
+          description: 응답 메세지

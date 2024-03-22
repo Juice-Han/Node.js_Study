@@ -21,24 +21,11 @@ const db = client.db('board');
  *      tags: [Board]
  *      responses:
  *        "200":
- *          description: 전체 게시글 목록
+ *          description: 게시글 성공적으로 불러옴
  *          content:
  *            application/json:
  *              schema:
- *                type: object
- *                properties:
- *                    posts:
- *                      type: object
- *                      example: 
- *                          [
- *                            { "_id": "1234567", "title": "test1", "content": "test1" },
- *                            { "_id": "2345678", "title": "test2", "content": "test2" },
- *                            { "_id": "3456789", "title": "test3", "content": "test3" },
- *                          ]
- *                    message:
- *                      type: string
- *                      example:
- *                          "정상적으로 데이터를 불러왔습니다."
+ *                $ref: '#/components/schemas/Board'
  *                          
  */
 router.get('/posts', async (req, res) => {
@@ -46,6 +33,49 @@ router.get('/posts', async (req, res) => {
     return res.status(200).json({ posts: posts, message: '정상적으로 데이터를 불러왔습니다.' });
 })
 
+/**
+ * @swagger
+ * paths:
+ *  /board/posts:
+ *    post:
+ *      summary: "게시글 등록"
+ *      description: "게시글을 등록한다."
+ *      tags: [Board]
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object 
+ *                      example:
+ *                          {
+ *                              "title": "title",
+ *                              "content": "content"
+ *                          }
+ *      responses:
+ *        "201":
+ *          description: 게시글이 성공적으로 등록되었음.
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:                                    
+ *                    message:
+ *                      type: string
+ *                      example:
+ *                          "정상적으로 글이 작성되었습니다."
+ *        "401":
+ *          description: 로그인이 안 돼있음.
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          message:
+ *                              type: string
+ *                              example:
+ *                                  "로그인을 한 후 이용해주세요."
+ */
 router.post('/posts', async (req, res) => {
     if (!req.session.is_login) {
         return res.status(401).send({ message: '로그인을 한 후 이용해주세요.' });
