@@ -1,18 +1,11 @@
 const express = require('express');
 const app = express();
 const gameRouter = require('./router/game');
-require('dotenv').config();
-const mysql = require('mysql2');
+const db = require('./db/db');
 
-const db_info = {
-    host: "localhost",
-    user: "fest",
-    password: '1111',
-    database: "festival"
-};
+db.connect();
 
-const db = mysql.createConnection(db_info);
-
+app.use(express.json());
 app.use('/game',gameRouter);
 
 app.listen(8080,()=>{
