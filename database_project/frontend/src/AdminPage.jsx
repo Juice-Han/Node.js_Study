@@ -31,14 +31,22 @@ const AdminPage = () => {
   };
 
   const putUser = async () => {
-    const response = await axios.put(`http://localhost:8080/user/${usersUser_Id}`, {
-      id: userId,
-      password: userPw,
-      name: userName,
-      phone_num: userPhone,
-    });
-    if (response.status === 200){
-        await getUserList();
+    const response = await axios.put(
+      `http://localhost:8080/user/${usersUser_Id}`,
+      {
+        id: userId,
+        password: userPw,
+        name: userName,
+        phone_num: userPhone,
+      }
+    );
+    if (response.status === 200) {
+      await getUserList();
+      setButtonToggle(true);
+      setUserId('');
+      setUserPw('');
+      setUserName('');
+      setUserPhone('');
     }
   };
 
@@ -86,7 +94,7 @@ const AdminPage = () => {
             <button
               onClick={() => {
                 setButtonToggle(false);
-                setUsersUser_id(user.user_id)
+                setUsersUser_id(user.user_id);
                 setUserId(user.id);
                 setUserPw(user.password);
                 setUserName(user.name);
