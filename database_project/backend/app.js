@@ -107,3 +107,47 @@ app.delete('/problem/:problem_num', (req,res)=>{
         return res.json({message: '삭제 성공'})
     })
 })
+
+app.get('/userProblem', (req,res)=>{
+    db.query('select * from user_problem', (err, rows)=>{
+        if(err){
+            console.error(err)
+            return res.json({message: '서버 오류'})
+        }
+        return res.json({rows})
+    })
+})
+
+app.post('/userProblem', (req,res)=>{
+    const {user_id,problem_num,success} = req.body
+    db.query('insert into user_problem (user_id, problem_num, success) values(?, ?, ?)',[user_id, problem_num, success], (err,result) => {
+        if(err){
+            console.error(err)
+            return res.json({message: '서버 오류'})
+        }
+        return res.json({message: '삽입 성공'})
+    })
+})
+
+app.put('/userProblem', (req,res)=>{
+    const {user_id,problem_num,success} = req.body
+    db.query('update user_problem set success=? where user_id=? and problem_num=?',[success,user_id,problem_num],(err,result)=>{
+        if(err){
+            console.error(err)
+            return res.json({message: '서버 오류'})
+        }
+        return res.json({message: '수정 성공'})
+    })
+})
+
+app.delete('/userProblem/:user_id/:problem_num', (req,res)=>{
+    const user_id = req.params.user_id
+    const problem_num = req.params.problem_num
+    db.query('delete from user_problem where user_id=? and problem_num=?',[user_id,problem_num],(err,result)=>{
+        if(err){
+            console.error(err)
+            return res.json({message: '서버 오류'})
+        }
+        return res.json({message: '삭제 성공'})
+    })
+})

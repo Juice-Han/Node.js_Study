@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const AdminPage = () => {
+const AdminUserPage = () => {
   const [userInfo, setUserInfo] = useState([]);
 
   const [userId, setUserId] = useState("");
@@ -111,4 +111,4 @@ const AdminPage = () => {
   );
 };
 
-export default AdminPage;
+export default AdminUserPage;
