@@ -65,7 +65,7 @@ const AdminUserPage = () => {
     <>
       <button onClick={() => getUserList()}>유저 조회</button>
       {buttonToggle ? (
-        <button onClick={() => insertUser()}>유저 추가</button>
+        <button onClick={() => insertUser()}>유저 삽입</button>
       ) : (
         <button onClick={() => putUser()}>유저 수정</button>
       )}
