@@ -195,3 +195,47 @@ app.delete('/question/:question_id',(req,res)=>{
         return res.json({ message: '삭제 성공' })
     })
 })
+
+app.get('/comment', (req, res) => {
+    db.query('select * from comment', (err, rows) => {
+        if (err) {
+            console.error(err)
+            return res.json({ message: '서버 오류' })
+        }
+        return res.json({ rows })
+    })
+})
+
+app.post('/comment',(req,res)=>{
+    const {question_id, user_id, content} = req.body
+    db.query('insert into comment (question_id, user_id, content) values(?,?,?)',[question_id, user_id, content], (err, result)=>{
+        if(err){
+            console.error(err)
+            return res.json({message: '서버 오류'})
+        }
+        return res.json({message: '삽입 성공'})
+    })
+})
+
+app.put('/comment/:comment_id',(req,res)=>{
+    const comment_id = req.params.comment_id
+    const content = req.body.content
+    db.query('update comment set content=? where comment_id=?', [content,comment_id], (err, result) => {
+        if (err) {
+            console.error(err)
+            return res.json({ message: '서버 오류' })
+        }
+        return res.json({ message: '수정 성공' })
+    })
+})
+
+app.delete('/comment/:comment_id',(req,res)=>{
+    const comment_id = req.params.comment_id
+    db.query('delete from comment where comment_id=?',comment_id,(err,result)=>{
+        if (err) {
+            console.error(err)
+            return res.json({ message: '서버 오류' })
+        }
+        return res.json({ message: '삭제 성공' })
+    })
+})
