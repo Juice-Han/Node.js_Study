@@ -36,6 +36,8 @@ const AdminQuestionPage = () => {
     }
     setUserId("");
     setProblemNum("");
+    setTitle("");
+    setContent("");
     setSuccess("");
     setButtonToggle(true);
   };

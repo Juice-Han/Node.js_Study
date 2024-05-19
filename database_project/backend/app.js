@@ -162,21 +162,21 @@ app.get('/question', (req, res) => {
     })
 })
 
-app.post('/question',(req,res)=>{
-    const {user_id, problem_num, title, content} = req.body
-    db.query('insert into question (user_id,problem_num,title,content) values(?,?,?,?)',[user_id, problem_num, title, content], (err, result)=>{
-        if(err){
+app.post('/question', (req, res) => {
+    const { user_id, problem_num, title, content } = req.body
+    db.query('insert into question (user_id,problem_num,title,content) values(?,?,?,?)', [user_id, problem_num, title, content], (err, result) => {
+        if (err) {
             console.error(err)
-            return res.json({message: '서버 오류'})
+            return res.json({ message: '서버 오류' })
         }
-        return res.json({message: '삽입 성공'})
+        return res.json({ message: '삽입 성공' })
     })
 })
 
-app.put('/question/:question_id',(req,res)=>{
+app.put('/question/:question_id', (req, res) => {
     const question_id = req.params.question_id
-    const {title, content} = req.body
-    db.query('update question set title=?, content=? where question_id=?', [title, content,question_id], (err, result) => {
+    const { title, content } = req.body
+    db.query('update question set title=?, content=? where question_id=?', [title, content, question_id], (err, result) => {
         if (err) {
             console.error(err)
             return res.json({ message: '서버 오류' })
@@ -185,9 +185,9 @@ app.put('/question/:question_id',(req,res)=>{
     })
 })
 
-app.delete('/question/:question_id',(req,res)=>{
+app.delete('/question/:question_id', (req, res) => {
     const question_id = req.params.question_id
-    db.query('delete from question where question_id=?',question_id,(err,result)=>{
+    db.query('delete from question where question_id=?', question_id, (err, result) => {
         if (err) {
             console.error(err)
             return res.json({ message: '서버 오류' })
@@ -206,21 +206,21 @@ app.get('/comment', (req, res) => {
     })
 })
 
-app.post('/comment',(req,res)=>{
-    const {question_id, user_id, content} = req.body
-    db.query('insert into comment (question_id, user_id, content) values(?,?,?)',[question_id, user_id, content], (err, result)=>{
-        if(err){
+app.post('/comment', (req, res) => {
+    const { question_id, user_id, content } = req.body
+    db.query('insert into comment (question_id, user_id, content) values(?,?,?)', [question_id, user_id, content], (err, result) => {
+        if (err) {
             console.error(err)
-            return res.json({message: '서버 오류'})
+            return res.json({ message: '서버 오류' })
         }
-        return res.json({message: '삽입 성공'})
+        return res.json({ message: '삽입 성공' })
     })
 })
 
-app.put('/comment/:comment_id',(req,res)=>{
+app.put('/comment/:comment_id', (req, res) => {
     const comment_id = req.params.comment_id
     const content = req.body.content
-    db.query('update comment set content=? where comment_id=?', [content,comment_id], (err, result) => {
+    db.query('update comment set content=? where comment_id=?', [content, comment_id], (err, result) => {
         if (err) {
             console.error(err)
             return res.json({ message: '서버 오류' })
@@ -229,13 +229,87 @@ app.put('/comment/:comment_id',(req,res)=>{
     })
 })
 
-app.delete('/comment/:comment_id',(req,res)=>{
+app.delete('/comment/:comment_id', (req, res) => {
     const comment_id = req.params.comment_id
-    db.query('delete from comment where comment_id=?',comment_id,(err,result)=>{
+    db.query('delete from comment where comment_id=?', comment_id, (err, result) => {
         if (err) {
             console.error(err)
             return res.json({ message: '서버 오류' })
         }
         return res.json({ message: '삭제 성공' })
+    })
+})
+
+// 사용자 모드 상세조회 기능 구현
+
+app.get('/api/checkSuccess/:user_id', (req, res) => {
+    const user_id = parseInt(req.params.user_id)
+    db.query('select problem_num, success from user left join user_problem on user.user_id=user_problem.user_id where user.user_id = ?;',
+     [user_id], (err, rows) => {
+        if (err) {
+            console.error(err)
+            return res.json({ message: '서버 오류' })
+        }
+        return res.json({ rows })
+    })
+})
+
+app.get('/api/problem/:difficulty', (req, res) => {
+    const difficulty = parseInt(req.params.difficulty)
+    db.query('select problem_num, title from problem where difficulty=?', difficulty, (err, rows) => {
+        if (err) {
+            console.error(err)
+            return res.json({ message: '서버 오류' })
+        }
+        return res.json({ rows })
+    })
+})
+
+app.get('/api/problem/:problem_num/question',(req,res)=>{
+    const problem_num = parseInt(req.params.problem_num)
+    db.query('select title from question where question.problem_num = ?',problem_num,(err,rows)=>{
+        if (err) {
+            console.error(err)
+            return res.json({ message: '서버 오류' })
+        }
+        db.query('select count(*) as count from question where question.problem_num = ?', problem_num, (err2,rows2)=>{
+            if (err2) {
+                console.error(err2)
+                return res.json({ message: '서버 오류' })
+            }
+            return res.json({ rows, rows2 })
+        })
+        
+    })
+})
+
+app.get('/api/question/:question_id/comment',(req,res)=>{
+    const question_id = parseInt(req.params.question_id)
+    db.query('select * from comment where question_id=?',question_id,(err,rows)=>{
+        if (err) {
+            console.error(err)
+            return res.json({ message: '서버 오류' })
+        }
+        return res.json({ rows })
+    })
+})
+
+app.get('/api/problem',(req,res)=>{
+    db.query('select * from problem',(err,rows)=>{
+        if (err) {
+            console.error(err)
+            return res.json({ message: '서버 오류' })
+        }
+        return res.json({ rows })
+    })
+})
+
+app.get('/api/question',(req,res)=>{
+    db.query('select * from question',(err,rows)=>{
+        if (err) {
+            console.error(err)
+            return res.json({ message: '서버 오류' })
+        }
+        return res.json({ rows })
     })
 })

@@ -45,9 +45,9 @@ const AdminCommentPage = () => {
     setButtonToggle(true);
   };
 
-  const deleteComment = async (questionId) => {
+  const deleteComment = async (comment_id) => {
     const response = await axios.delete(
-      `http://localhost:8080/comment/${commentId}`
+      `http://localhost:8080/comment/${comment_id}`
     );
     if (response.status === 200) {
       await getComment();
