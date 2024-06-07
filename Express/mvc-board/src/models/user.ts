@@ -1,5 +1,6 @@
 import SQ from "sequelize";
 import sequelize from "../db/database.js";
+import { dbType } from "./index.js";
 
 const DataTypes = SQ.DataTypes;
 
@@ -48,4 +49,9 @@ User.init(
   }
 );
 
+export const associate = (db: dbType) => {
+  db.User.hasMany(db.Board, { onDelete: "CASCADE", onUpdate: "CASCADE" });
+  db.User.hasMany(db.Comment, { onDelete: "CASCADE", onUpdate: "CASCADE" });
+  db.User.hasMany(db.UserLike, { onDelete: "CASCADE", onUpdate: "CASCADE" });
+};
 export default User;

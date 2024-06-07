@@ -1,5 +1,6 @@
 import SQ from "sequelize";
 import sequelize from "../db/database";
+import { dbType } from "./index.js";
 
 const DataTypes = SQ.DataTypes;
 
@@ -52,5 +53,10 @@ Comment.init(
     collate: "utf8_general_ci",
   }
 );
+
+export const associate = (db: dbType) => {
+  db.Comment.belongsTo(db.User, { as: "user" });
+  db.Comment.belongsTo(db.Board, { as: "board" });
+};
 
 export default Comment;

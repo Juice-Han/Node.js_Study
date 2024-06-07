@@ -1,22 +1,22 @@
 import SQ from "sequelize";
 import sequelize from "../db/database";
-import { deflate } from "zlib";
+import { dbType } from "./index.js";
 
 const DataTypes = SQ.DataTypes;
 
-export interface user_likeType {
+export interface userLikeType {
   user_id: number;
   post_id: number;
 }
 
-export interface user_likeAttributes extends user_likeType {}
+export interface userLikeAttributes extends userLikeType {}
 
-class User_Like extends SQ.Model {
+class UserLike extends SQ.Model {
   user_id!: number;
   post_id!: number;
 }
 
-User_Like.init(
+UserLike.init(
   {
     user_id: {
       type: DataTypes.INTEGER,
@@ -29,12 +29,17 @@ User_Like.init(
   },
   {
     sequelize,
-    modelName: "user_like",
-    tableName: "user_likes",
+    modelName: "userLike",
+    tableName: "userLikes",
     timestamps: false,
     charset: "utf8",
     collate: "utf8_general_ci",
   }
 );
 
-export default User_Like;
+export const associate = (db: dbType) => {
+  db.UserLike.belongsTo(db.User, { as: "user" });
+  db.UserLike.belongsTo(db.Board, { as: "board" });
+};
+
+export default UserLike;
